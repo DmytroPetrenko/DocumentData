@@ -28,13 +28,67 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.StartBtn = new System.Windows.Forms.Button();
+            this.YearComboBox = new System.Windows.Forms.ComboBox();
+            this.OvuNumberComboBox = new System.Windows.Forms.ComboBox();
+            this.SuspendLayout();
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(68, 69);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(656, 203);
+            this.textBox1.TabIndex = 0;
+            // 
+            // StartBtn
+            // 
+            this.StartBtn.Location = new System.Drawing.Point(464, 320);
+            this.StartBtn.Name = "StartBtn";
+            this.StartBtn.Size = new System.Drawing.Size(119, 23);
+            this.StartBtn.TabIndex = 1;
+            this.StartBtn.Text = "Start";
+            this.StartBtn.UseVisualStyleBackColor = true;
+            // 
+            // YearComboBox
+            // 
+            this.YearComboBox.FormattingEnabled = true;
+            this.YearComboBox.Location = new System.Drawing.Point(337, 320);
+            this.YearComboBox.Name = "YearComboBox";
+            this.YearComboBox.Size = new System.Drawing.Size(121, 21);
+            this.YearComboBox.TabIndex = 2;
+            // 
+            // OvuNumberComboBox
+            // 
+            this.OvuNumberComboBox.FormattingEnabled = true;
+            this.OvuNumberComboBox.Location = new System.Drawing.Point(210, 320);
+            this.OvuNumberComboBox.Name = "OvuNumberComboBox";
+            this.OvuNumberComboBox.Size = new System.Drawing.Size(121, 21);
+            this.OvuNumberComboBox.TabIndex = 3;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.OvuNumberComboBox);
+            this.Controls.Add(this.YearComboBox);
+            this.Controls.Add(this.StartBtn);
+            this.Controls.Add(this.textBox1);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button StartBtn;
+        private System.Windows.Forms.ComboBox YearComboBox;
+        private System.Windows.Forms.ComboBox OvuNumberComboBox;
     }
 }
 

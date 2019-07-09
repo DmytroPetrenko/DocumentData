@@ -1,0 +1,780 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="OvuModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="article_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar(max)" Nullable="false" />
+          <Property Name="notes" Type="text" />
+        </EntityType>
+        <EntityType Name="articles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="article_type_id" Type="int" Nullable="false" />
+          <Property Name="section_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="varchar(max)" Nullable="false" />
+          <Property Name="cached_number" Type="varchar" MaxLength="50" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="declare_at" Type="datetime" />
+          <Property Name="registration_code" Type="varchar" MaxLength="50" />
+          <Property Name="contents" Type="text" />
+          <Property Name="number" Type="varchar" MaxLength="255" />
+          <Property Name="proceedings_id" Type="int" Nullable="false" />
+          <Property Name="articles_id" Type="int" />
+        </EntityType>
+        <EntityType Name="attachment_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="note" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="attachments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="articles_id" Type="int" />
+          <Property Name="filename" Type="varchar(max)" />
+          <Property Name="content_type" Type="varchar(max)" />
+          <Property Name="size" Type="float" />
+          <Property Name="path" Type="varchar(max)" />
+          <Property Name="attachment_types_id" Type="int" />
+        </EntityType>
+        <EntityType Name="collections">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="articles_id" Type="int" Nullable="false" />
+          <Property Name="publishers_id" Type="int" Nullable="false" />
+          <Property Name="number" Type="int" />
+          <Property Name="article_type_id" Type="int" />
+        </EntityType>
+        <EntityType Name="proceedings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="number" Type="varchar" MaxLength="255" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+          <Property Name="published_at" Type="datetime" Nullable="false" />
+          <Property Name="notes" Type="text" />
+        </EntityType>
+        <EntityType Name="publishers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar(max)" Nullable="false" />
+          <Property Name="notes" Type="text" />
+        </EntityType>
+        <EntityType Name="sections">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar(max)" Nullable="false" />
+          <Property Name="notes" Type="text" />
+        </EntityType>
+        <EntityType Name="taggings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="articles_id" Type="int" Nullable="false" />
+          <Property Name="tags_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tags">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar(max)" Nullable="false" />
+          <Property Name="tags_id" Type="int" />
+          <Property Name="note" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK_articles_article_types1">
+          <End Role="article_types" Type="Self.article_types" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="articles" Type="Self.articles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="article_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="articles">
+              <PropertyRef Name="article_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_articles_articles">
+          <End Role="articles" Type="Self.articles" Multiplicity="1" />
+          <End Role="articles1" Type="Self.articles" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="articles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="articles1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_articles_proceedings">
+          <End Role="proceedings" Type="Self.proceedings" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="articles" Type="Self.articles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="proceedings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="articles">
+              <PropertyRef Name="proceedings_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_articles_sections">
+          <End Role="sections" Type="Self.sections" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="articles" Type="Self.articles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sections">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="articles">
+              <PropertyRef Name="section_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_attachments_articles">
+          <End Role="articles" Type="Self.articles" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="attachments" Type="Self.attachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="articles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="attachments">
+              <PropertyRef Name="articles_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_attachments_attachment_types">
+          <End Role="attachment_types" Type="Self.attachment_types" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="attachments" Type="Self.attachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="attachment_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="attachments">
+              <PropertyRef Name="attachment_types_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_collections_articles">
+          <End Role="articles" Type="Self.articles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="collections" Type="Self.collections" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="articles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="collections">
+              <PropertyRef Name="articles_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_collections_publishers">
+          <End Role="publishers" Type="Self.publishers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="collections" Type="Self.collections" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="publishers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="collections">
+              <PropertyRef Name="publishers_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_taggings_articles">
+          <End Role="articles" Type="Self.articles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="taggings" Type="Self.taggings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="articles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="taggings">
+              <PropertyRef Name="articles_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_taggings_tags">
+          <End Role="tags" Type="Self.tags" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="taggings" Type="Self.taggings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tags">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="taggings">
+              <PropertyRef Name="tags_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tags_tags">
+          <End Role="tags" Type="Self.tags" Multiplicity="0..1" />
+          <End Role="tags1" Type="Self.tags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tags">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tags1">
+              <PropertyRef Name="tags_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OvuModelStoreContainer">
+          <EntitySet Name="article_types" EntityType="Self.article_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="articles" EntityType="Self.articles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="attachment_types" EntityType="Self.attachment_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="attachments" EntityType="Self.attachments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="collections" EntityType="Self.collections" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="proceedings" EntityType="Self.proceedings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="publishers" EntityType="Self.publishers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sections" EntityType="Self.sections" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="taggings" EntityType="Self.taggings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tags" EntityType="Self.tags" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_articles_article_types1" Association="Self.FK_articles_article_types1">
+            <End Role="article_types" EntitySet="article_types" />
+            <End Role="articles" EntitySet="articles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_articles_articles" Association="Self.FK_articles_articles">
+            <End Role="articles" EntitySet="articles" />
+            <End Role="articles1" EntitySet="articles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_articles_proceedings" Association="Self.FK_articles_proceedings">
+            <End Role="proceedings" EntitySet="proceedings" />
+            <End Role="articles" EntitySet="articles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_articles_sections" Association="Self.FK_articles_sections">
+            <End Role="sections" EntitySet="sections" />
+            <End Role="articles" EntitySet="articles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_attachments_articles" Association="Self.FK_attachments_articles">
+            <End Role="articles" EntitySet="articles" />
+            <End Role="attachments" EntitySet="attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_attachments_attachment_types" Association="Self.FK_attachments_attachment_types">
+            <End Role="attachment_types" EntitySet="attachment_types" />
+            <End Role="attachments" EntitySet="attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_collections_articles" Association="Self.FK_collections_articles">
+            <End Role="articles" EntitySet="articles" />
+            <End Role="collections" EntitySet="collections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_collections_publishers" Association="Self.FK_collections_publishers">
+            <End Role="publishers" EntitySet="publishers" />
+            <End Role="collections" EntitySet="collections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_taggings_articles" Association="Self.FK_taggings_articles">
+            <End Role="articles" EntitySet="articles" />
+            <End Role="taggings" EntitySet="taggings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_taggings_tags" Association="Self.FK_taggings_tags">
+            <End Role="tags" EntitySet="tags" />
+            <End Role="taggings" EntitySet="taggings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tags_tags" Association="Self.FK_tags_tags">
+            <End Role="tags" EntitySet="tags" />
+            <End Role="tags1" EntitySet="tags" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OvuModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="article_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="articles" Relationship="Self.FK_articles_article_types1" FromRole="article_types" ToRole="articles" />
+        </EntityType>
+        <EntityType Name="article">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="article_type_id" Type="Int32" Nullable="false" />
+          <Property Name="section_id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cached_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="declare_at" Type="DateTime" Precision="3" />
+          <Property Name="registration_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="contents" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="number" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="proceedings_id" Type="Int32" Nullable="false" />
+          <Property Name="articles_id" Type="Int32" />
+          <NavigationProperty Name="article_types" Relationship="Self.FK_articles_article_types1" FromRole="articles" ToRole="article_types" />
+          <NavigationProperty Name="articles1" Relationship="Self.FK_articles_articles" FromRole="articles" ToRole="articles1" />
+          <NavigationProperty Name="article1" Relationship="Self.FK_articles_articles" FromRole="articles1" ToRole="articles" />
+          <NavigationProperty Name="proceedings" Relationship="Self.FK_articles_proceedings" FromRole="articles" ToRole="proceedings" />
+          <NavigationProperty Name="section" Relationship="Self.FK_articles_sections" FromRole="articles" ToRole="sections" />
+          <NavigationProperty Name="attachments" Relationship="Self.FK_attachments_articles" FromRole="articles" ToRole="attachments" />
+          <NavigationProperty Name="collections" Relationship="Self.FK_collections_articles" FromRole="articles" ToRole="collections" />
+          <NavigationProperty Name="taggings" Relationship="Self.FK_taggings_articles" FromRole="articles" ToRole="taggings" />
+        </EntityType>
+        <EntityType Name="attachment_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="attachments" Relationship="Self.FK_attachments_attachment_types" FromRole="attachment_types" ToRole="attachments" />
+        </EntityType>
+        <EntityType Name="attachment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="articles_id" Type="Int32" />
+          <Property Name="filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="content_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="size" Type="Double" />
+          <Property Name="path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="attachment_types_id" Type="Int32" />
+          <NavigationProperty Name="article" Relationship="Self.FK_attachments_articles" FromRole="attachments" ToRole="articles" />
+          <NavigationProperty Name="attachment_types" Relationship="Self.FK_attachments_attachment_types" FromRole="attachments" ToRole="attachment_types" />
+        </EntityType>
+        <EntityType Name="collection">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="articles_id" Type="Int32" Nullable="false" />
+          <Property Name="publishers_id" Type="Int32" Nullable="false" />
+          <Property Name="number" Type="Int32" />
+          <Property Name="article_type_id" Type="Int32" />
+          <NavigationProperty Name="article" Relationship="Self.FK_collections_articles" FromRole="collections" ToRole="articles" />
+          <NavigationProperty Name="publisher" Relationship="Self.FK_collections_publishers" FromRole="collections" ToRole="publishers" />
+        </EntityType>
+        <EntityType Name="proceedings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="number" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="published_at" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="articles" Relationship="Self.FK_articles_proceedings" FromRole="proceedings" ToRole="articles" />
+        </EntityType>
+        <EntityType Name="publisher">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="collections" Relationship="Self.FK_collections_publishers" FromRole="publishers" ToRole="collections" />
+        </EntityType>
+        <EntityType Name="section">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="articles" Relationship="Self.FK_articles_sections" FromRole="sections" ToRole="articles" />
+        </EntityType>
+        <EntityType Name="tagging">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="articles_id" Type="Int32" Nullable="false" />
+          <Property Name="tags_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="article" Relationship="Self.FK_taggings_articles" FromRole="taggings" ToRole="articles" />
+          <NavigationProperty Name="tag" Relationship="Self.FK_taggings_tags" FromRole="taggings" ToRole="tags" />
+        </EntityType>
+        <EntityType Name="tag">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tags_id" Type="Int32" />
+          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="taggings" Relationship="Self.FK_taggings_tags" FromRole="tags" ToRole="taggings" />
+          <NavigationProperty Name="tags1" Relationship="Self.FK_tags_tags" FromRole="tags" ToRole="tags1" />
+          <NavigationProperty Name="tag1" Relationship="Self.FK_tags_tags" FromRole="tags1" ToRole="tags" />
+        </EntityType>
+        <Association Name="FK_articles_article_types1">
+          <End Role="article_types" Type="Self.article_types" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="articles" Type="Self.article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="article_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="articles">
+              <PropertyRef Name="article_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_articles_articles">
+          <End Role="articles" Type="Self.article" Multiplicity="1" />
+          <End Role="articles1" Type="Self.article" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="articles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="articles1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_articles_proceedings">
+          <End Role="proceedings" Type="Self.proceedings" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="articles" Type="Self.article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="proceedings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="articles">
+              <PropertyRef Name="proceedings_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_articles_sections">
+          <End Role="sections" Type="Self.section" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="articles" Type="Self.article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sections">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="articles">
+              <PropertyRef Name="section_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_attachments_articles">
+          <End Role="articles" Type="Self.article" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="attachments" Type="Self.attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="articles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="attachments">
+              <PropertyRef Name="articles_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_collections_articles">
+          <End Role="articles" Type="Self.article" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="collections" Type="Self.collection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="articles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="collections">
+              <PropertyRef Name="articles_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_taggings_articles">
+          <End Role="articles" Type="Self.article" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="taggings" Type="Self.tagging" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="articles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="taggings">
+              <PropertyRef Name="articles_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_attachments_attachment_types">
+          <End Role="attachment_types" Type="Self.attachment_types" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="attachments" Type="Self.attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="attachment_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="attachments">
+              <PropertyRef Name="attachment_types_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_collections_publishers">
+          <End Role="publishers" Type="Self.publisher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="collections" Type="Self.collection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="publishers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="collections">
+              <PropertyRef Name="publishers_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_taggings_tags">
+          <End Role="tags" Type="Self.tag" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="taggings" Type="Self.tagging" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tags">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="taggings">
+              <PropertyRef Name="tags_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tags_tags">
+          <End Role="tags" Type="Self.tag" Multiplicity="0..1" />
+          <End Role="tags1" Type="Self.tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tags">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tags1">
+              <PropertyRef Name="tags_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ovuEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="article_types" EntityType="Self.article_types" />
+          <EntitySet Name="articles" EntityType="Self.article" />
+          <EntitySet Name="attachment_types" EntityType="Self.attachment_types" />
+          <EntitySet Name="attachments" EntityType="Self.attachment" />
+          <EntitySet Name="collections" EntityType="Self.collection" />
+          <EntitySet Name="proceedings" EntityType="Self.proceedings" />
+          <EntitySet Name="publishers" EntityType="Self.publisher" />
+          <EntitySet Name="sections" EntityType="Self.section" />
+          <EntitySet Name="taggings" EntityType="Self.tagging" />
+          <EntitySet Name="tags" EntityType="Self.tag" />
+          <AssociationSet Name="FK_articles_article_types1" Association="Self.FK_articles_article_types1">
+            <End Role="article_types" EntitySet="article_types" />
+            <End Role="articles" EntitySet="articles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_articles_articles" Association="Self.FK_articles_articles">
+            <End Role="articles" EntitySet="articles" />
+            <End Role="articles1" EntitySet="articles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_articles_proceedings" Association="Self.FK_articles_proceedings">
+            <End Role="proceedings" EntitySet="proceedings" />
+            <End Role="articles" EntitySet="articles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_articles_sections" Association="Self.FK_articles_sections">
+            <End Role="sections" EntitySet="sections" />
+            <End Role="articles" EntitySet="articles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_attachments_articles" Association="Self.FK_attachments_articles">
+            <End Role="articles" EntitySet="articles" />
+            <End Role="attachments" EntitySet="attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_collections_articles" Association="Self.FK_collections_articles">
+            <End Role="articles" EntitySet="articles" />
+            <End Role="collections" EntitySet="collections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_taggings_articles" Association="Self.FK_taggings_articles">
+            <End Role="articles" EntitySet="articles" />
+            <End Role="taggings" EntitySet="taggings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_attachments_attachment_types" Association="Self.FK_attachments_attachment_types">
+            <End Role="attachment_types" EntitySet="attachment_types" />
+            <End Role="attachments" EntitySet="attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_collections_publishers" Association="Self.FK_collections_publishers">
+            <End Role="publishers" EntitySet="publishers" />
+            <End Role="collections" EntitySet="collections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_taggings_tags" Association="Self.FK_taggings_tags">
+            <End Role="tags" EntitySet="tags" />
+            <End Role="taggings" EntitySet="taggings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tags_tags" Association="Self.FK_tags_tags">
+            <End Role="tags" EntitySet="tags" />
+            <End Role="tags1" EntitySet="tags" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OvuModelStoreContainer" CdmEntityContainer="ovuEntities">
+          <EntitySetMapping Name="article_types">
+            <EntityTypeMapping TypeName="OvuModel.article_types">
+              <MappingFragment StoreEntitySet="article_types">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="articles">
+            <EntityTypeMapping TypeName="OvuModel.article">
+              <MappingFragment StoreEntitySet="articles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="article_type_id" ColumnName="article_type_id" />
+                <ScalarProperty Name="section_id" ColumnName="section_id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="cached_number" ColumnName="cached_number" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="declare_at" ColumnName="declare_at" />
+                <ScalarProperty Name="registration_code" ColumnName="registration_code" />
+                <ScalarProperty Name="contents" ColumnName="contents" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="proceedings_id" ColumnName="proceedings_id" />
+                <ScalarProperty Name="articles_id" ColumnName="articles_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="attachment_types">
+            <EntityTypeMapping TypeName="OvuModel.attachment_types">
+              <MappingFragment StoreEntitySet="attachment_types">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="attachments">
+            <EntityTypeMapping TypeName="OvuModel.attachment">
+              <MappingFragment StoreEntitySet="attachments">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="articles_id" ColumnName="articles_id" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="content_type" ColumnName="content_type" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="attachment_types_id" ColumnName="attachment_types_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="collections">
+            <EntityTypeMapping TypeName="OvuModel.collection">
+              <MappingFragment StoreEntitySet="collections">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="articles_id" ColumnName="articles_id" />
+                <ScalarProperty Name="publishers_id" ColumnName="publishers_id" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="article_type_id" ColumnName="article_type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="proceedings">
+            <EntityTypeMapping TypeName="OvuModel.proceedings">
+              <MappingFragment StoreEntitySet="proceedings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="published_at" ColumnName="published_at" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="publishers">
+            <EntityTypeMapping TypeName="OvuModel.publisher">
+              <MappingFragment StoreEntitySet="publishers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sections">
+            <EntityTypeMapping TypeName="OvuModel.section">
+              <MappingFragment StoreEntitySet="sections">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="taggings">
+            <EntityTypeMapping TypeName="OvuModel.tagging">
+              <MappingFragment StoreEntitySet="taggings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="articles_id" ColumnName="articles_id" />
+                <ScalarProperty Name="tags_id" ColumnName="tags_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tags">
+            <EntityTypeMapping TypeName="OvuModel.tag">
+              <MappingFragment StoreEntitySet="tags">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="tags_id" ColumnName="tags_id" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

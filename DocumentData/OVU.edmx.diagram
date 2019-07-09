@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c81bd38e6bd94387bf7aef87c0538c45" Name="Diagram1">
+        <EntityTypeShape EntityType="OvuModel.article_types" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OvuModel.article" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OvuModel.attachment_types" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OvuModel.attachment" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OvuModel.collection" Width="1.5" PointX="8.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OvuModel.proceedings" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OvuModel.publisher" Width="1.5" PointX="6" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OvuModel.section" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OvuModel.tagging" Width="1.5" PointX="8.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OvuModel.tag" Width="1.5" PointX="6" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="OvuModel.FK_articles_article_types1" ManuallyRouted="false" />
+        <AssociationConnector Association="OvuModel.FK_articles_articles" ManuallyRouted="false" />
+        <AssociationConnector Association="OvuModel.FK_articles_proceedings" ManuallyRouted="false" />
+        <AssociationConnector Association="OvuModel.FK_articles_sections" ManuallyRouted="false" />
+        <AssociationConnector Association="OvuModel.FK_attachments_articles" ManuallyRouted="false" />
+        <AssociationConnector Association="OvuModel.FK_collections_articles" ManuallyRouted="false" />
+        <AssociationConnector Association="OvuModel.FK_taggings_articles" ManuallyRouted="false" />
+        <AssociationConnector Association="OvuModel.FK_attachments_attachment_types" ManuallyRouted="false" />
+        <AssociationConnector Association="OvuModel.FK_collections_publishers" ManuallyRouted="false" />
+        <AssociationConnector Association="OvuModel.FK_taggings_tags" ManuallyRouted="false" />
+        <AssociationConnector Association="OvuModel.FK_tags_tags" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
