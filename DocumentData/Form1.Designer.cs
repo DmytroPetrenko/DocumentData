@@ -91,7 +91,7 @@
             this.Controls.Add(this.StartBtn);
             this.Controls.Add(this.textBox1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "DocumentData";
             this.ResumeLayout(false);
             this.PerformLayout();
 
