@@ -27,7 +27,7 @@ namespace DocumentData
         public int section_id { get; set; }
         public string title { get; set; }
         public string cached_number { get; set; }
-        public Nullable<System.DateTime> created_at { get; set; }
+        public System.DateTime created_at { get; set; }
         public Nullable<System.DateTime> declare_at { get; set; }
         public string registration_code { get; set; }
         public string contents { get; set; }
